@@ -107,6 +107,7 @@ func (c *Console) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHe
 
 // Start will open the console window with the given scale.
 func (c *Console) Start(scale float64) error {
+	fmt.Println("starting")
 	if c.isSubConsole {
 		return fmt.Errorf("only the main console can be started")
 	}
