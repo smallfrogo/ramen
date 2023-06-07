@@ -11,4 +11,6 @@ var (
 	White = RGB(255, 255, 255)
 	// Black color
 	Black = RGB(0, 0, 0)
+	// Yellow color
+	Yellow = RGB(255, 255, 0)
 )

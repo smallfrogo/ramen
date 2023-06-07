@@ -3,7 +3,8 @@ package concolor
 
 import (
 	"errors"
-	"fmt"
+	//"fmt"
+	//"strconv"
 )
 
 // Color represents a RGBA color in the console
@@ -24,10 +25,49 @@ func RGBA(r, g, b, a byte) Color {
 	return Color{r, g, b, a}
 }
 
+func Hex(hex string) (Color, error) {
+	c := Color{}
+	err := errors.New("")
+	c.A = 0xff
+
+	if hex[0] != '#' {
+		return c, errors.New("invalid format")
+	}
+
+	hexToByte := func(b byte) byte {
+		switch {
+		case b >= '0' && b <= '9':
+			return b - '0'
+		case b >= 'a' && b <= 'f':
+			return b - 'a' + 10
+		case b >= 'A' && b <= 'F':
+			return b - 'A' + 10
+		}
+		err = errors.New("invalid format")
+		return 0
+	}
+
+	switch len(hex) {
+	case 7:
+		c.R = hexToByte(hex[1])<<4 + hexToByte(hex[2])
+		c.G = hexToByte(hex[3])<<4 + hexToByte(hex[4])
+		c.B = hexToByte(hex[5])<<4 + hexToByte(hex[6])
+	case 4:
+		c.R = hexToByte(hex[1]) * 17
+		c.G = hexToByte(hex[2]) * 17
+		c.B = hexToByte(hex[3]) * 17
+	default:
+		err = errors.New("invalid format")
+	}
+	return c, err
+}
+
+
 // Hex creates a new color from a hex string
+/*
 func Hex(hex string) (Color, error) {
 	if len(hex) != 6 || len(hex) != 4 {
-		return Color{}, errors.New("wrong hex color length")
+		return Color{}, errors.New("wrong hex color length" + strconv.Itoa(len(hex)))
 	}
 
 	format := "#%02x%02x%02x"
@@ -39,14 +79,17 @@ func Hex(hex string) (Color, error) {
 	if _, err := fmt.Sscanf(hex, format, &r, &g, &b); err != nil {
 		return Color{}, err
 	}
-
+	fmt.Println(r+g+b)
 	return Color{r, g, b, 255}, nil
-}
+}*/
 
 // MustHex creates a new color from a hex string and instead of returning an error if
 // the hex could not be parsed it will return a transparent color
 func MustHex(hex string) Color {
-	col, _ := Hex(hex)
+	col, err := Hex(hex)
+	if err != nil {
+		//fmt.Println(err.Error())
+	}
 	return col
 }
 

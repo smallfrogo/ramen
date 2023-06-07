@@ -2,11 +2,15 @@ package console
 
 import (
 	"regexp"
+	"strings"
+
+	"github.com/BigJk/ramen/concolor"
 
 	"github.com/BigJk/ramen/t"
 )
 
-var colorSectionRegex = regexp.MustCompile(`\[\[(([bf]):(#[0-9a-zA-Z]+))\]\]`)
+//var colorSectionRegex = regexp.MustCompile(`\[\[(([bf]):(#[0-9a-zA-Z]+))\]\]`)
+var colorSectionRegex = regexp.MustCompile("\\[\\[(([bf]):(#[0-9a-zA-Z]+))(\\|(([bf]):(#[0-9a-zA-Z]+)))?\\]\\]")
 
 // ColorSection represents a colorized section in a text.
 type ColorSection struct {
@@ -37,25 +41,14 @@ func (cs ColorSections) GetCurrentTransformer(index int) []t.Transformer {
 	return []t.Transformer{}
 }
 
-func ParseColoredText(text string) (string, ColorSections) {
-	var results []*ColorSection
-	//get this to work somehow
-	//theres a simple solution hiding here somewhere
-
-	return text, results
-}
-
 // ParseColoredText parses the coloring annotations in a string and returns the cleaned string
 // and the parsed color sections.
-/*func ParseColoredText(text string) (string, ColorSections) {
+func ParseColoredText(text string) (string, ColorSections) {
 	var results []*ColorSection
 	for {
 		match := colorSectionRegex.FindStringSubmatch(text)
 		if len(match) <= 1 {
-			fmt.Println("len " + text)
 			break
-		} else {
-			fmt.Println("yay " + text)
 		}
 
 		var cs ColorSection
@@ -64,24 +57,23 @@ func ParseColoredText(text string) (string, ColorSections) {
 
 		if len(match[4]) == 0 {
 			switch match[2] {
-			case "f":
-				cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[3])))
-			case "b":
-				cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[3])))
+				case "f":
+					cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[3])))
+				case "b":
+					cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[3])))
 			}
 		} else if len(match) == 8 {
 			switch match[2] {
-			case "f":
-				cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[3])))
-			case "b":
-				cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[3])))
+				case "f":
+					cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[3])))
+				case "b":
+					cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[3])))
 			}
-
 			switch match[6] {
-			case "f":
-				cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[7])))
-			case "b":
-				cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[7])))
+				case "f":
+					cs.Transformer = append(cs.Transformer, t.Foreground(concolor.MustHex(match[7])))
+				case "b":
+					cs.Transformer = append(cs.Transformer, t.Background(concolor.MustHex(match[7])))
 			}
 		}
 
@@ -90,4 +82,3 @@ func ParseColoredText(text string) (string, ColorSections) {
 
 	return text, results
 }
-*/
