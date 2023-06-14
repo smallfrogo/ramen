@@ -4,6 +4,7 @@ package console
 import (
 	"fmt"
 	"math"
+	"strings"
 	"sync"
 
 	"sort"
@@ -302,6 +303,13 @@ func (c *Console) Transform(x, y int, transformer ...t.Transformer) error {
 	}
 
 	return nil
+}
+
+// PrintCtrAdj prints text onto the console but automatically centre adjusted to the length of the text.
+func (c *Console) PrintCtrAdj(x, y int, text string, transformer ...t.Transformer) {
+	split := strings.Split(text,"\n")
+	x = x - (len(split[0])/2)
+	c.PrintBounded(x, y, 0, 0, text, transformer...)
 }
 
 // Print prints a text onto the console. To give the text a different foreground or
