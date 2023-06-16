@@ -9,7 +9,6 @@ import (
 	"github.com/BigJk/ramen/t"
 )
 
-//var colorSectionRegex = regexp.MustCompile(`\[\[(([bf]):(#[0-9a-zA-Z]+))\]\]`)
 var colorSectionRegex = regexp.MustCompile("\\[\\[(([bf]):(#[0-9a-zA-Z]+))(\\|(([bf]):(#[0-9a-zA-Z]+)))?\\]\\]")
 
 // ColorSection represents a colorized section in a text.

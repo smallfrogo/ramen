@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 	"sync"
-
+  "regexp"
 	"sort"
 
 	"github.com/BigJk/ramen"
@@ -307,8 +307,11 @@ func (c *Console) Transform(x, y int, transformer ...t.Transformer) error {
 
 // PrintCtrAdj prints text onto the console but automatically centre adjusted to the length of the text.
 func (c *Console) PrintCtrAdj(x, y int, text string, transformer ...t.Transformer) {
+  var colorSectionRegex = regexp.MustCompile("\\[\\[(([bf]):(#[0-9a-zA-Z]+))(\\|(([bf]):(#[0-9a-zA-Z]+)))?\\]\\]")
 	split := strings.Split(text,"\n")
+  matches := colorSectionRegex.FindAllStringIndex(split[0], -1)
 	x = x - (len(split[0])/2)
+  x = x + (len(matches)*7)
 	c.PrintBounded(x, y, 0, 0, text, transformer...)
 }
 
